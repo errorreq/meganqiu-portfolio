@@ -838,14 +838,14 @@ if (carousel && previousButton && nextButton) {
 
   const getCurrentCardIndex = () => {
     const cards = getCards();
-    const carouselCenter = carousel.getBoundingClientRect().left + carousel.clientWidth / 2;
+    const carouselStyle = window.getComputedStyle(carousel);
+    const carouselEdge = carousel.getBoundingClientRect().left + parseFloat(carouselStyle.paddingLeft || "0");
     let closestIndex = 0;
     let closestDistance = Number.POSITIVE_INFINITY;
 
     cards.forEach((card, index) => {
       const rect = card.getBoundingClientRect();
-      const cardCenter = rect.left + rect.width / 2;
-      const distance = Math.abs(cardCenter - carouselCenter);
+      const distance = Math.abs(rect.left - carouselEdge);
       if (distance < closestDistance) {
         closestDistance = distance;
         closestIndex = index;
@@ -862,23 +862,25 @@ if (carousel && previousButton && nextButton) {
     nextButton.disabled = index >= cards.length - 1;
   };
 
-  const centerProjectCard = (index, behavior = "auto") => {
+  const alignProjectCard = (index, behavior = "auto") => {
     const cards = getCards();
     const card = cards[index];
     if (!card) return;
 
-    const targetLeft = card.offsetLeft - (carousel.clientWidth - card.offsetWidth) / 2;
+    const carouselStyle = window.getComputedStyle(carousel);
+    const leadingPadding = parseFloat(carouselStyle.paddingLeft || "0");
+    const targetLeft = card.offsetLeft - leadingPadding;
     carousel.scrollTo({ left: targetLeft, behavior });
   };
 
   previousButton.addEventListener("click", () => {
-    centerProjectCard(Math.max(0, getCurrentCardIndex() - 1), "smooth");
+    alignProjectCard(Math.max(0, getCurrentCardIndex() - 1), "smooth");
     previousButton.blur();
   });
 
   nextButton.addEventListener("click", () => {
     const cards = getCards();
-    centerProjectCard(Math.min(cards.length - 1, getCurrentCardIndex() + 1), "smooth");
+    alignProjectCard(Math.min(cards.length - 1, getCurrentCardIndex() + 1), "smooth");
     nextButton.blur();
   });
 

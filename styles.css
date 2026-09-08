@@ -713,15 +713,16 @@ a {
 
 .figma-intro {
   display: grid;
+  --page-edge: max(24px, calc((100% - 941px) / 2));
   min-height: auto;
   align-items: start;
-  padding: 200px clamp(24px, 17.36vw, 250px) 88px;
+  padding: 200px var(--page-edge) 88px;
   background: #f7f7f7;
 }
 
 .figma-intro-copy {
   width: min(100%, 941px);
-  margin: 0 auto;
+  margin: 0;
   min-width: 0;
 }
 
@@ -898,6 +899,7 @@ a {
 
 .work-showcase {
   position: relative;
+  --work-edge: max(24px, calc((100% - 941px) / 2));
   overflow-x: hidden;
   overflow-y: visible;
   padding: 0 0 80px;
@@ -906,12 +908,11 @@ a {
 
 .work-heading {
   display: flex;
-  width: min(100%, 941px);
   align-items: center;
   justify-content: flex-start;
   gap: 22px;
-  margin: 0 auto;
-  padding: 12px 0 24px;
+  margin: 0;
+  padding: 12px var(--work-edge) 24px;
   overflow: visible;
 }
 
@@ -1005,9 +1006,9 @@ a {
   display: flex;
   gap: 51px;
   overflow-x: auto;
-  padding: 18px clamp(24px, 17.36vw, 250px) 22px;
+  padding: 18px var(--work-edge) 22px;
   scroll-behavior: smooth;
-  scroll-padding-inline: clamp(24px, 17.36vw, 250px);
+  scroll-padding-inline: var(--work-edge);
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -1020,7 +1021,7 @@ a {
 .project-card {
   position: relative;
   flex: 0 0 min(72vw, 615px);
-  scroll-snap-align: center;
+  scroll-snap-align: start;
   overflow: visible;
   border-radius: var(--radius-card);
   background: transparent;
@@ -1353,8 +1354,9 @@ a {
 
 @media (max-width: 1100px) {
   .figma-intro {
+    --page-edge: 48px;
     min-height: auto;
-    padding: 187px 48px 88px;
+    padding: 187px var(--page-edge) 88px;
   }
 
   .figma-intro-copy,
@@ -1382,12 +1384,13 @@ a {
   }
 
   .work-showcase {
+    --work-edge: 48px;
     padding-top: 0;
     padding-bottom: 80px;
   }
 
   .work-heading {
-    padding: 0 48px 24px;
+    padding: 0 var(--work-edge) 24px;
   }
 
   .work-heading h2 {
@@ -1401,8 +1404,8 @@ a {
 
   .project-carousel {
     gap: 32px;
-    padding: 0 48px;
-    scroll-padding-inline: 48px;
+    padding: 0 var(--work-edge);
+    scroll-padding-inline: var(--work-edge);
   }
 
   .project-card {
@@ -1422,6 +1425,39 @@ a {
   .figma-about,
   .figma-info-block {
     width: calc(100% - 96px);
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  .carousel-hover-zone {
+    display: none;
+  }
+
+  .project-carousel {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    touch-action: pan-x pan-y;
+  }
+
+  .project-card {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .project-cover,
+  .project-card:hover .project-cover,
+  .project-card:focus-within .project-cover {
+    box-shadow: none;
+    transform: none;
+  }
+
+  .project-title-row,
+  .project-card:hover .project-title-row,
+  .project-card:focus-within .project-title-row {
+    width: 100%;
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -2838,6 +2874,11 @@ a {
     font-size: 15px;
   }
 
+  .language-toggle {
+    top: 82px;
+    right: 24px;
+  }
+
   .hero {
     min-height: 92svh;
     padding-top: 108px;
@@ -2878,8 +2919,9 @@ a {
   }
 
   .figma-intro {
+    --page-edge: 24px;
     min-height: 430px;
-    padding: 167px 24px 0;
+    padding: 167px var(--page-edge) 72px;
   }
 
   .figma-intro h1 {
@@ -2901,13 +2943,14 @@ a {
   }
 
   .work-showcase {
+    --work-edge: 24px;
     padding-top: 0;
   }
 
   .work-heading {
     align-items: flex-start;
     flex-direction: column;
-    padding: 0 24px 22px;
+    padding: 0 var(--work-edge) 22px;
   }
 
   .work-heading h2 {
@@ -2923,13 +2966,21 @@ a {
   }
 
   .project-carousel {
-    gap: 20px;
-    padding: 18px 24px 22px;
-    scroll-padding-inline: 24px;
+    flex-direction: column;
+    gap: 32px;
+    overflow: visible;
+    padding: 18px var(--work-edge) 22px;
+    scroll-behavior: auto;
+    scroll-padding-inline: 0;
+    scroll-snap-type: none;
+    touch-action: auto;
   }
 
   .project-card {
-    flex-basis: min(86vw, 520px);
+    width: 100%;
+    flex-basis: auto;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
   }
 
   .work-grid-page {
@@ -2957,6 +3008,14 @@ a {
 
   .project-cover {
     min-height: auto;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .project-card:hover .project-cover,
+  .project-card:focus-within .project-cover {
+    box-shadow: none;
+    transform: none;
   }
 
   .project-overlay {
@@ -2968,6 +3027,14 @@ a {
     min-height: 72px;
     padding: 20px 0 0;
     background: #f7f7f7;
+  }
+
+  .project-title-row,
+  .project-card:hover .project-title-row,
+  .project-card:focus-within .project-title-row {
+    width: 100%;
+    opacity: 1;
+    transform: none;
   }
 
   .project-mobile-copy h3 {

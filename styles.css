@@ -109,6 +109,20 @@ a {
   font-weight: 600;
 }
 
+@media (min-width: 761px) {
+  .is-windows .figma-links a {
+    font-size: 18px;
+  }
+
+  .is-windows .work-heading h2,
+  .is-windows .figma-about h2,
+  .is-windows .figma-info-block h2,
+  .is-windows .about-page h1,
+  .is-windows .about-page h2 {
+    font-size: 26px;
+  }
+}
+
 .language-toggle {
   position: absolute;
   top: 40px;

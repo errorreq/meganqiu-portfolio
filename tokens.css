@@ -13,7 +13,7 @@
   --color-card: #dededb;
   --radius-card: 10px;
   --radius-pill: 999px;
-  --font-sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-  --font-display: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-display: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   --nav-height: 72px;
 }

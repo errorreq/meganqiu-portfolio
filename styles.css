@@ -2061,7 +2061,7 @@ a {
 .mentor-showcase-block h2 {
   margin: 0;
   color: #27348b;
-  font-family: "Plus Jakarta Sans", "Noto Sans SC", sans-serif;
+  font-family: "Plus Jakarta Sans", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 16px;
   font-weight: 700;
   line-height: 1.24;
@@ -2089,13 +2089,13 @@ a {
   padding: 52px 94px 64px;
   background: #c6ccef;
   color: #252d3b;
-  font-family: "Noto Sans SC", sans-serif;
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
 }
 
 .mentor-written-takeaways h2 {
   margin: 0;
   color: #27348b;
-  font-family: "Plus Jakarta Sans", "Noto Sans SC", sans-serif;
+  font-family: "Plus Jakarta Sans", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 16px;
   font-weight: 700;
   line-height: 1.24;
@@ -2105,7 +2105,7 @@ a {
   max-width: 1550px;
   margin: 0;
   color: #343b48;
-  font-family: "Plus Jakarta Sans", "Noto Sans SC", sans-serif;
+  font-family: "Plus Jakarta Sans", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 14px;
   font-weight: 600;
   line-height: 1.48;
@@ -2124,7 +2124,7 @@ a {
 .exotic-written-takeaways h3 {
   margin: 0 0 28px;
   color: #e5ffae;
-  font-family: "Plus Jakarta Sans", "Noto Sans SC", sans-serif;
+  font-family: "Plus Jakarta Sans", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 20px;
   font-weight: 700;
   line-height: 1.24;
@@ -2133,7 +2133,7 @@ a {
 .exotic-written-takeaways p,
 .exotic-written-takeaways li {
   color: #ffffff;
-  font-family: "Plus Jakarta Sans", "Noto Sans SC", sans-serif;
+  font-family: "Plus Jakarta Sans", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 16px;
   font-weight: 600;
   line-height: 1.48;
@@ -2179,7 +2179,7 @@ a {
   margin: 0 auto;
   background: #f1efe4;
   color: #5d5e4a;
-  font-family: "Noto Sans SC", sans-serif;
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
 }
 
 .shikumen-case h2,

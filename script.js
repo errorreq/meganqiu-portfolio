@@ -1,3 +1,10 @@
+const userPlatform = navigator.userAgentData?.platform || navigator.platform || "";
+const isWindows = /Windows/i.test(userPlatform) || /Windows/i.test(navigator.userAgent);
+
+if (isWindows) {
+  document.documentElement.classList.add("is-windows");
+}
+
 const navLinks = Array.from(document.querySelectorAll("[data-nav-link]"));
 const siteNav = document.querySelector(".site-nav");
 const observedSections = ["home", "work", "about"]

@@ -98,6 +98,17 @@ a {
   transform: scaleX(1);
 }
 
+.is-windows .site-nav a,
+.is-windows .figma-links a,
+.is-windows .work-heading h2,
+.is-windows .figma-about h2,
+.is-windows .figma-info-block h2,
+.is-windows .about-page h1,
+.is-windows .about-page h2,
+.is-windows .project-mobile-copy h3 {
+  font-weight: 600;
+}
+
 .language-toggle {
   position: absolute;
   top: 40px;

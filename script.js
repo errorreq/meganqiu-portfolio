@@ -295,13 +295,20 @@ if (!document.querySelector("[data-language-toggle]")) {
   };
 
   const imageTranslations = {
-    "rednote-redesign.html": Array.from({ length: 43 }, (_, index) => {
-      const pageNumber = index + 2;
-      return {
-        selector: `img[src^="assets/rednote-redesign/${pageNumber}.jpg"]`,
-        zhSrc: `assets/rednote-redesign/中文版/${pageNumber}.jpg`,
-      };
-    }),
+    "rednote-redesign.html": [
+      ...Array.from({ length: 42 }, (_, index) => {
+        const englishPageNumber = index + 2;
+        const chinesePageNumber = index + 1;
+        return {
+          selector: `img[src^="assets/rednote-redesign/${englishPageNumber}.jpg"]`,
+          zhSrc: `assets/rednote-redesign/中文版/${chinesePageNumber}.jpg?v=20261001-rednote-zh`,
+        };
+      }),
+      {
+        selector: 'img[src^="assets/rednote-redesign/44.jpg"]',
+        hideInZh: true,
+      },
+    ],
     "ai-mentorhub.html": [
       ...Array.from({ length: 10 }, (_, index) => {
         const pageNumber = index + 1;
@@ -323,6 +330,11 @@ if (!document.querySelector("[data-language-toggle]")) {
       };
     }),
   };
+
+  const pageImageTranslations = (imageTranslations[pageName] || []).map((rule) => ({
+    rule,
+    images: Array.from(document.querySelectorAll(rule.selector)),
+  }));
 
   const applyRule = (rule, language) => {
     const elements = rule.all
@@ -365,8 +377,8 @@ if (!document.querySelector("[data-language-toggle]")) {
   const applyLanguage = (language) => {
     document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
     (translations[pageName] || navTranslations).forEach((rule) => applyRule(rule, language));
-    (imageTranslations[pageName] || []).forEach((rule) => {
-      document.querySelectorAll(rule.selector).forEach((image) => {
+    pageImageTranslations.forEach(({ rule, images }) => {
+      images.forEach((image) => {
         if (!originalImageSrc.has(image)) {
           originalImageSrc.set(image, image.getAttribute("src"));
         }
@@ -391,6 +403,9 @@ if (!document.querySelector("[data-language-toggle]")) {
       button.classList.toggle("is-active", isActive);
       button.setAttribute("aria-pressed", String(isActive));
     });
+    window.dispatchEvent(new CustomEvent("portfolio-language-change", {
+      detail: { language },
+    }));
   };
 
   languageToggle.querySelectorAll("button").forEach((button) => {
@@ -960,6 +975,8 @@ const detailSideLinks = Array.from(document.querySelectorAll("[data-detail-side-
 
 if (detailSideIndex && detailSideLinks.length) {
   let sideIndexTimer;
+  let detailObserver;
+  let detailTargetLinks = new Map();
 
   const showDetailSideIndex = () => {
     detailSideIndex.classList.add("is-visible");
@@ -975,27 +992,50 @@ if (detailSideIndex && detailSideLinks.length) {
     });
   };
 
-  const detailSections = detailSideLinks
-    .map((link) => document.querySelector(link.getAttribute("href")))
-    .filter(Boolean);
-
-  const detailObserver = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-      if (visible?.target?.id) {
-        setActiveDetailLink(visible.target.id);
-      }
-    },
-    {
-      rootMargin: "-36% 0px -46% 0px",
-      threshold: [0.01, 0.08, 0.18, 0.36, 0.58],
+  const getDetailTarget = (link) => {
+    const zhPage = Number(link.dataset.detailZhPage);
+    if (document.documentElement.lang === "zh-CN" && zhPage > 0) {
+      const visibleImages = Array.from(document.querySelectorAll(".rednote-pdf-panel img"))
+        .filter((image) => !image.hidden && window.getComputedStyle(image).display !== "none");
+      return visibleImages[zhPage - 1] || null;
     }
-  );
 
-  detailSections.forEach((section) => detailObserver.observe(section));
+    const href = link.getAttribute("href");
+    return href ? document.querySelector(href) : null;
+  };
+
+  const observeDetailSections = () => {
+    detailObserver?.disconnect();
+    detailTargetLinks = new Map();
+
+    detailObserver = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        const activeLink = visible ? detailTargetLinks.get(visible.target) : null;
+        const id = activeLink?.getAttribute("href")?.replace("#", "");
+
+        if (id) {
+          setActiveDetailLink(id);
+        }
+      },
+      {
+        rootMargin: "-36% 0px -46% 0px",
+        threshold: [0.01, 0.08, 0.18, 0.36, 0.58],
+      }
+    );
+
+    detailSideLinks.forEach((link) => {
+      const target = getDetailTarget(link);
+      if (!target) return;
+      detailTargetLinks.set(target, link);
+      detailObserver.observe(target);
+    });
+  };
+
+  observeDetailSections();
+  window.addEventListener("portfolio-language-change", observeDetailSections);
 
   ["scroll", "wheel", "touchmove"].forEach((eventName) => {
     window.addEventListener(eventName, showDetailSideIndex, { passive: true });
@@ -1005,7 +1045,7 @@ if (detailSideIndex && detailSideLinks.length) {
     link.addEventListener("click", (event) => {
       const href = link.getAttribute("href");
       const id = href?.replace("#", "");
-      const target = href ? document.querySelector(href) : null;
+      const target = getDetailTarget(link);
 
       if (target && id) {
         event.preventDefault();

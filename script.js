@@ -301,7 +301,7 @@ if (!document.querySelector("[data-language-toggle]")) {
         const chinesePageNumber = index + 1;
         return {
           selector: `img[src^="assets/rednote-redesign/${englishPageNumber}.jpg"]`,
-          zhSrc: `assets/rednote-redesign/中文版/${chinesePageNumber}.jpg?v=20261001-rednote-zh`,
+          zhSrc: `assets/rednote-redesign/中文版/${chinesePageNumber}.jpg?v=20261025-rednote-zh-p9`,
         };
       }),
       {
